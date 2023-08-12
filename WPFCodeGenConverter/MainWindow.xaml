@@ -1,0 +1,40 @@
+﻿<Window x:Class="WPFCodeGenConverter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCodeGenConverter" 
+        xmlns:c="clr-namespace:WPFCodeGenConverter.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="593"
+        x:Name="ThisWindow">
+    <Grid>
+        <!-- Because XAML doesn't like you using special chars for raw strings, you have to use the character codes -->
+        <!-- &quot; is the " char, 
+             &lt; is the < char, and 
+             &gt; is the > char -->
+        <!-- The parameter code is: (double) x < 350 ? "Less than 350!" : "More than 350!" -->
+        <GroupBox Margin="5" x:Name="GroupBox2"  
+                  Header="{Binding ElementName=ThisWindow, 
+                                   Path=ActualWidth, 
+                                   Converter={c:DynamicCodeConverter}, 
+                                   ConverterParameter='(double) x &lt; 350 ? &quot;Less than 350!&quot; : &quot;More than 350!&quot;'}">
+            <Grid>
+                <DockPanel>
+                    <Button Content="I am visible when the window width is more than 350"
+                            DockPanel.Dock="Top" Height="100"
+                            Visibility="{Binding ElementName=ThisWindow, 
+                                                 Path=ActualWidth, 
+                                                 Converter={c:DynamicCodeConverter}, 
+                                                 ConverterParameter='(double) x &lt; 350 ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible'}"/>
+
+                    <!-- You could just use StringFormat instead of the converter here, e.g. StringFormat='My width = {0}' -->
+                    <Button Content="{Binding RelativeSource={RelativeSource Mode=Self},
+                                              Path=ActualWidth, 
+                                              Converter={c:DynamicCodeConverter}, 
+                                              ConverterParameter='&quot;My width = &quot; + x.ToString()'}" Margin="0,5,0,0"/>
+                </DockPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
