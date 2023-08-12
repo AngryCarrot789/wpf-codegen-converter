@@ -12,6 +12,9 @@ entire project
 To use it in XAML, you just set a binding's converter to `Converter={c:DynamicCodeConverter}`. The class extends `MarkdownExtension`, which means that you 
 don't need to provide a specific instance; it's automatically created by XAML and also the class itself (via the `ProvideValue` method)
 
+And then you provide your code in the `ConverterParameter` part of the binding. If the `ConverterParameter` is the last part of the binding expression, you can
+encapsulate the script in single quotes (`'like this'`), and XAML will tolerate it
+
 Currently, you can't convert back from the value. I was thinking of maybe using a TypeConverter or something along those lines to
 allow more specific properties to be set... but then you lose the luxury of binding AFAIK. I couldn't get binding to work outside of the built in
 `Binding`
